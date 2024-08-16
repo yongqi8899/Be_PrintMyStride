@@ -69,6 +69,15 @@ The following endpoints are available:
 - **PUT /orders/:id** Update an existing order.
 - **DELETE /orders/:id** Delete an order by ID.
 
+
+### reviews
+
+- **POST /reviews** Create a new review.
+- **GET /reviews** Get all reviews.
+- **GET /reviews/:id** Get a single review by ID.
+- **PUT /reviews/:id** Update an existing review.
+- **DELETE /reviews/:id** Delete an user by ID.
+
 ## Configuration
 
 Create a new `.env` file and then copy the contents of `example.env` into it, you may change the `JWT_SECRET` and `PORT` values.

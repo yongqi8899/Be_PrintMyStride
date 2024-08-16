@@ -1,16 +1,16 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 export const userSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().alphanum().min(8).max(12).required(),
-  role:  Joi.string().optional(),
+  role: Joi.string().optional(),
 });
 
 export const signinSchema = Joi.object({
   email: Joi.string().required(),
-  password: Joi.string().alphanum().min(8).max(12).required()
+  password: Joi.string().alphanum().min(8).max(12).required(),
 });
 
 export const productSchema = Joi.object({
@@ -27,5 +27,21 @@ export const orderSchema = Joi.object({
   productId: Joi.string().required(),
   quantity: Joi.number().integer().min(1).required(),
   orderDate: Joi.date().iso().optional(),
-  status: Joi.string().valid('payed', 'feet_impression', '3D_Druck', 'shoe_shipped', 'shoe_delivered').required()
+  status: Joi.string()
+    .valid(
+      "payed",
+      "feet_impression",
+      "3D_Druck",
+      "shoe_shipped",
+      "shoe_delivered"
+    )
+    .required(),
+});
+
+export const reviewSchema = Joi.object({
+  userId: Joi.string().required(),
+  productId: Joi.string().required(),
+  rating: Joi.string().required(),
+  comment: Joi.string().required(),
+  reviewDate: Joi.date().iso().optional(),
 });
