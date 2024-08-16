@@ -14,7 +14,7 @@ Before running this server, ensure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yongqi8899/BE_PrintMyStride
+   git clone https://github.com/yongqi8899/Be_PrintMyStride
    cd BE_PrintMyStride
    ```
 
