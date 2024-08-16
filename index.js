@@ -4,6 +4,7 @@ import cors from "cors";
 import authRouter from "./routes/authRouter.js";
 import productsRouter from "./routes/productsRouter.js";
 import ordersRouter from "./routes/ordersRouter.js";
+import usersRouter from "./routes/usersRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import dbInit from "./db/index.js";
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
+app.use("/users", usersRouter);
 app.use("*", (req, res) => res.status(404).json({ error: "Not found" }));
 app.use(errorHandler);
 

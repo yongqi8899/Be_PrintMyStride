@@ -44,3 +44,45 @@ export const signUp = asyncHandler(async (req, res) => {
   res.json({token,user});
   res.status(201).json({ success: "welcome aboard" });
 });
+
+export const getAllUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find().populate({ path: 'user', strictPopulate: false }).populate({ path: 'product', strictPopulate: false });
+  res.json(users);
+});
+
+export const createUser = asyncHandler(async (req, res, next) => {
+  const { body, userId, productId } = req;
+  const newUser = await (await User.create({ ...body, user: userId, product: productId })).populate({ path: 'user, product', strictPopulate: false });
+  res.status(201).json(newUser);
+});
+
+export const getSingleUser = asyncHandler(async (req, res, next) => {
+  const {
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new ErrorResponse('Invalid id', 400);
+  const user = await User.findById(id).populate({ path: 'user', strictPopulate: false }).populate({ path: 'product', strictPopulate: false });
+  if (!user) throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);
+  res.send(user);
+});
+
+export const updateUser = asyncHandler(async (req, res, next) => {
+  const {
+    body,
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new ErrorResponse('Invalid id', 400);
+  const updatedUser = await User.findByIdAndUpdate(id, body, { new: false }).populate({ path: 'user', strictPopulate: false }).populate({ path: 'product', strictPopulate: false });
+  if (!updatedUser) throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);
+  res.json(updatedUser);
+});
+
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const {
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new ErrorResponse('Invalid id', 400);
+  const deletedUser = await User.findByIdAndDelete(id).populate({ path: 'user', strictPopulate: false }).populate({ path: 'product', strictPopulate: false });
+  if (!deletedUser) throw new Error(`User with id of ${id} doesn't exist`);
+  res.json({ success: `User with id of ${id} was deleted` });
+});
