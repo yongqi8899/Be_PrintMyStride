@@ -98,7 +98,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     params: { id },
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
-  const updatedUser = await User.findByIdAndUpdate(id, body, { new: false })
+  const updatedUser = await User.findByIdAndUpdate(id, body, { new: true })
     .populate({ path: "product", strictPopulate: false });
   if (!updatedUser)
     throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);

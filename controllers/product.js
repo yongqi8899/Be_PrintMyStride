@@ -30,9 +30,9 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     params: { id }
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse('Invalid id', 400);
-  const updatedProduct = await Product.findByIdAndUpdate(id, body, { new: false }).populate({ path: 'user', strictPopulate: false });
+  const updatedProduct = await Product.findByIdAndUpdate(id, body, { new: true }).populate({ path: 'user', strictPopulate: false });
   if (!updatedProduct) throw new ErrorResponse(`Product with id of ${id} doesn't exist`, 404);
-  res.json(updatedProduct);
+  if (updatedProduct) res.json(updatedProduct);
 });
 
 export const deleteProduct = asyncHandler(async (req, res, next) => {
