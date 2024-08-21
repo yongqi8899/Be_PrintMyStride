@@ -9,13 +9,27 @@ import reviewsRouter from "./routes/reviewsRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import dbInit from "./db/index.js";
 
+import path from 'path'
+import multer from 'multer'
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/uploads')
+  },
+  filename: function (req, file, cb) {
+    let extname = path.extname(file.originalname)
+    cb(null, file.fieldname + '-' + extname)
+  }
+})
+
+const upload = multer({ storage: storage })
+
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(cors({ origin: process.env.SPA_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use("/auth", authRouter);
-app.use("/products", productsRouter);
+app.use("/products",upload.single('image'), productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/users", usersRouter);
 app.use("/reviews", reviewsRouter);
