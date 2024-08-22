@@ -41,14 +41,12 @@ export const signOut = asyncHandler(async (req, res) => {
 });
 
 export const signUp = asyncHandler(async (req, res) => {
-  const { userName,firstName, lastName, email, password, role } = req.body;
+  const { userName, email, password, role } = req.body;
   const alreayExists = await User.findOne({ email });
   if (alreayExists) throw new ErrorResponse("User already exists", 400);
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({
     userName,
-    firstName,
-    lastName,
     email,
     password: hashedPassword,
     role,
@@ -98,9 +96,6 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     params: { id },
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
-  if(body.password !== body.confirmPassword){
-    throw new ErrorResponse("Passwords do not match", 400);
-  }
   const hashedPassword = await bcrypt.hash(body.password, 10);
   const updatedUser = await User.findByIdAndUpdate(id, {...body,  password: hashedPassword}, { new: true })
     .populate({ path: "product", strictPopulate: false });
