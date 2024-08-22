@@ -98,7 +98,11 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     params: { id },
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
-  const updatedUser = await User.findByIdAndUpdate(id, body, { new: true })
+  if(body.password !== body.confirmPassword){
+    throw new ErrorResponse("Passwords do not match", 400);
+  }
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+  const updatedUser = await User.findByIdAndUpdate(id, {...body,  password: hashedPassword}, { new: true })
     .populate({ path: "product", strictPopulate: false });
   if (!updatedUser)
     throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);
