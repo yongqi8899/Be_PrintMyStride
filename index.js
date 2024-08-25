@@ -19,14 +19,15 @@ app.use(express.json());
 app.use("/auth", authRouter);
 // app.use("/products",upload.single('image'), productsRouter);
 app.use("/products", upload.single('image'), function (req, res, next) {
-  cloudinary.uploader.upload(req.file.path, function (error, result) {
-    if (error) {
-      return res.status(400).json({ success: false, message: error.message });
-    } else {
-      res.status(200).json({success: true, message: "Image uploaded", data: result});
-      next();  
-    }
-  });
+console.log(req.file)
+  // cloudinary.uploader.upload(req.file.path, function (error, result) {
+  //   if (error) {
+  //     return res.status(400).json({ success: false, message: error.message });
+  //   } else {
+  //     res.status(200).json({success: true, message: "Image uploaded", data: result});
+  //     next();  
+  //   }
+  // });
 }, productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/users", usersRouter);

@@ -1,17 +1,8 @@
-// import multer from 'multer';
-// const storage = multer.diskStorage({
-//     filename: (req, file, cb) => {
-//         cb(null, file.originalname);
-//     }
-// });
-// const upload = multer({ dest: 'uploads/'})
-// export default upload;
-
 import path from 'path'
 import multer from 'multer'
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/uploads')
+    cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
     let extname = path.extname(file.originalname)
@@ -19,7 +10,6 @@ const storage = multer.diskStorage({
   }
 })
 
-// const upload = multer({ storage: storage })
-const upload = multer({ dest: 'uploads/'})
+const upload = multer({ storage: storage })
 
 export default upload;
