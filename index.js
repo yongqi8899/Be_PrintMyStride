@@ -8,20 +8,7 @@ import usersRouter from "./routes/usersRouter.js";
 import reviewsRouter from "./routes/reviewsRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import dbInit from "./db/index.js";
-
-import path from 'path'
-import multer from 'multer'
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/uploads')
-  },
-  filename: function (req, file, cb) {
-    let extname = path.extname(file.originalname)
-    cb(null, file.fieldname + '-' + extname)
-  }
-})
-
-const upload = multer({ dest: 'uploads/'})
+import upload from "./middlewares/multer.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
