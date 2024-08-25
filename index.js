@@ -21,12 +21,14 @@ app.use(express.static(join(import.meta.dirname, "uploads")))
 app.use("/auth", authRouter);
 
 app.use("/products", upload.single('image'), function (req, res, next) {
+  console.log("req.body",req.body);
   cloudinary.uploader.upload(req.file.path, function (error, result) {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     } else {
-      res.status(200).json({success: true, message: "Image uploaded", data: result});
-      next();  
+      req.body.image = result.url;
+      console.log("req.body2",req.body);
+      next(); 
     }
   });
 }, productsRouter);
