@@ -10,14 +10,26 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
   res.json(orders);
 });
 
-export const createOrder = asyncHandler(async (req, res, next) => {
-  const { body, userId, productId } = req;
-  const newOrder = await (
-    await Order.create({ ...body, user: userId, product: productId })
-  ).populate({ path: "user, product", strictPopulate: false });
-  res.status(201).json(newOrder);
+// export const createOrder = asyncHandler(async (req, res, next) => {
+//   const { body, userId, productId } = req;
+//   const newOrder = await (
+//     await Order.create({ ...body, user: userId, product: productId })
+//   ).populate({ path: "user, product", strictPopulate: false });
+//   res.status(201).json(newOrder);
+// });
+
+export const createOrder = asyncHandler(async function (req, res, next) {
+  const newOrder = new Order(req.body);
+  await newOrder.save();
+  res.status(201).json({ newOrder });
 });
 
+// export const createOrder = asyncHandler(async (req, res, next) => {
+//  const newOrder = await (
+//     await Order.create(req.body)
+//   ).populate({ path: "user, product", strictPopulate: false });
+//   res.status(201).json({data: newOrder});
+// });
 export const getSingleOrder = asyncHandler(async (req, res, next) => {
   const {
     params: { id },

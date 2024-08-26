@@ -22,10 +22,12 @@ export const productSchema = Joi.object({
   userId: Joi.string().required(),
 });
 
+const orderProductSchema = Joi.object({
+  productId: Joi.string().required(), 
+  quantity: Joi.number().integer().min(1).required(), 
+});
+
 export const orderSchema = Joi.object({
-  userId: Joi.string().required(),
-  productId: Joi.string().required(),
-  quantity: Joi.number().integer().min(1).required(),
   orderDate: Joi.date().iso().optional(),
   status: Joi.string()
     .valid(
@@ -36,6 +38,8 @@ export const orderSchema = Joi.object({
       "shoe_delivered"
     )
     .required(),
+  userId: Joi.string().required(),
+  products: Joi.array().items(orderProductSchema).min(1).required(),
 });
 
 export const reviewSchema = Joi.object({
