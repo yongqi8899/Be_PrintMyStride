@@ -17,21 +17,25 @@ const orderSchema = new Schema({
     ],
     required: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
   userId: {
     type: ObjectId,
     ref: "User",
     required: true,
   },
-  productId: {
-    type: ObjectId,
-    ref: "Product",
+  quantity: {
+    type: Number,
     required: true,
+    min: 1,
   },
+  products: [
+    {
+      productId: {
+        type: ObjectId,
+        ref: "Product",
+        required: true,
+      },
+    }
+  ],
 });
 
 export default model("Order", orderSchema);

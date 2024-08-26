@@ -15,7 +15,18 @@ import { join } from "path";
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors({ origin: process.env.SPA_ORIGIN, credentials: true }));
+var whitelist = process.env.SPA_ORIGIN
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }, 
+  credentials: true 
+}
+app.use(cors( corsOptions));
 app.use(express.json());
 app.use(express.static(join(import.meta.dirname, "uploads")))
 app.use("/auth", authRouter);
@@ -32,6 +43,7 @@ app.use("/products", upload.single('image'), function (req, res, next) {
     }
   });
 }, productsRouter);
+// app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/users", usersRouter);
 app.use("/reviews", reviewsRouter);
