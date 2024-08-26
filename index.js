@@ -8,8 +8,7 @@ import usersRouter from "./routes/usersRouter.js";
 import reviewsRouter from "./routes/reviewsRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import dbInit from "./db/index.js";
-import upload from "./middlewares/multer.js";
-import cloudinary from "./utils/cloudinary.js";
+
 import { join } from "path";
 
 const app = express();
@@ -31,18 +30,7 @@ app.use(express.json());
 app.use(express.static(join(import.meta.dirname, "uploads")))
 app.use("/auth", authRouter);
 
-app.use("/products", upload.single('image'), function (req, res, next) {
-  console.log("req.body",req.body);
-  cloudinary.uploader.upload(req.file.path, function (error, result) {
-    if (error) {
-      return res.status(400).json({ success: false, message: error.message });
-    } else {
-      req.body.image = result.url;
-      console.log("req.body2",req.body);
-      next(); 
-    }
-  });
-}, productsRouter);
+app.use("/products", productsRouter);
 // app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/users", usersRouter);
