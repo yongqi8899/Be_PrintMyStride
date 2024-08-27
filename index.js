@@ -6,6 +6,8 @@ import productsRouter from "./routes/productsRouter.js";
 import ordersRouter from "./routes/ordersRouter.js";
 import usersRouter from "./routes/usersRouter.js";
 import reviewsRouter from "./routes/reviewsRouter.js";
+// import chatRouter from "./routes/chatRouter.js";
+// import imageRouter from "./routes/imageRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import dbInit from "./db/index.js";
 
@@ -31,10 +33,11 @@ app.use(express.static(join(import.meta.dirname, "uploads")))
 app.use("/auth", authRouter);
 
 app.use("/products", productsRouter);
-// app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/users", usersRouter);
 app.use("/reviews", reviewsRouter);
+// app.use("/aiChat", chatRouter);
+// app.use("/aiImage", imageRouter);
 app.use("*", (req, res) => res.status(404).json({ error: "Not found" }));
 app.use(errorHandler);
 
