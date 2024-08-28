@@ -66,15 +66,14 @@ export const signUp = asyncHandler(async (req, res) => {
 
 export const getAllUsers = asyncHandler(async (req, res, next) => {
   const users = await User.find()
-    .populate({ path: "product", strictPopulate: false });
+    
   res.json(users);
 });
 
 export const createUser = asyncHandler(async (req, res, next) => {
-  const { body, productId } = req;
-  const newUser = await (
-    await User.create({ ...body, product: productId })
-  ).populate({ path: "product", strictPopulate: false });
+  const { body} = req;
+  const newUser = await User.create({ ...body})
+ 
   res.status(201).json(newUser);
 });
 
@@ -84,7 +83,7 @@ export const getSingleUser = asyncHandler(async (req, res, next) => {
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const user = await User.findById(id)
-    .populate({ path: "product", strictPopulate: false });
+    
   if (!user)
     throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);
   res.send(user);
@@ -98,7 +97,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const hashedPassword = await bcrypt.hash(body.password, 10);
   const updatedUser = await User.findByIdAndUpdate(id, {...body,  password: hashedPassword}, { new: true })
-    .populate({ path: "product", strictPopulate: false });
+    
   if (!updatedUser)
     throw new ErrorResponse(`User with id of ${id} doesn't exist`, 404);
   res.json(updatedUser);
@@ -110,7 +109,7 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const deletedUser = await User.findByIdAndDelete(id)
-    .populate({ path: "product", strictPopulate: false });
+    
   if (!deletedUser) throw new Error(`User with id of ${id} doesn't exist`);
   res.json({ success: `User with id of ${id} was deleted` });
 });

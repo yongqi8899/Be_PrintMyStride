@@ -5,8 +5,14 @@ import ErrorResponse from "../utils/ErrorResponse.js";
 
 export const getAllOrders = asyncHandler(async (req, res, next) => {
   const orders = await Order.find()
-    .populate({ path: "user", strictPopulate: false })
-    .populate({ path: "product", strictPopulate: false });
+    .populate({ path: "userId", strictPopulate: false })
+    .populate({
+      path: "products",
+      populate: {
+        path: "productId",
+      },
+      strictPopulate: false,
+    });
   res.json(orders);
 });
 
@@ -22,8 +28,14 @@ export const getSingleOrder = asyncHandler(async (req, res, next) => {
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const order = await Order.findById(id)
-    .populate({ path: "user", strictPopulate: false })
-    .populate({ path: "product", strictPopulate: false });
+    .populate({ path: "userId", strictPopulate: false })
+    .populate({
+      path: "products",
+      populate: {
+        path: "productId",
+      },
+      strictPopulate: false,
+    });
   if (!order)
     throw new ErrorResponse(`Order with id of ${id} doesn't exist`, 404);
   res.send(order);
@@ -36,8 +48,14 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const updatedOrder = await Order.findByIdAndUpdate(id, body, { new: true })
-    .populate({ path: "user", strictPopulate: false })
-    .populate({ path: "product", strictPopulate: false });
+    .populate({ path: "userId", strictPopulate: false })
+    .populate({
+      path: "products",
+      populate: {
+        path: "productId",
+      },
+      strictPopulate: false,
+    });
   if (!updatedOrder)
     throw new ErrorResponse(`Order with id of ${id} doesn't exist`, 404);
   res.json(updatedOrder);
@@ -49,8 +67,14 @@ export const deleteOrder = asyncHandler(async (req, res, next) => {
   } = req;
   if (!isValidObjectId(id)) throw new ErrorResponse("Invalid id", 400);
   const deletedOrder = await Order.findByIdAndDelete(id)
-    .populate({ path: "user", strictPopulate: false })
-    .populate({ path: "product", strictPopulate: false });
+    .populate({ path: "userId", strictPopulate: false })
+    .populate({
+      path: "products",
+      populate: {
+        path: "productId",
+      },
+      strictPopulate: false,
+    });
   if (!deletedOrder) throw new Error(`Order with id of ${id} doesn't exist`);
   res.json({ success: `Order with id of ${id} was deleted` });
 });

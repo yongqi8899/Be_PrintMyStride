@@ -5,12 +5,12 @@ const reviewSchema = new Schema({
   rating: { type: String, required: [true, "Rating is required"] },
   comment: { type: String, required: [true, "Comment is required"] },
   userId: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
   productId: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Product",
     required: true,
   },

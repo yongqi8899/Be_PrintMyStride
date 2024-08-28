@@ -9,7 +9,7 @@ const productSchema = new Schema({
   price: { type: String, required: [true, "price is required"] },
   isPublic: { type: Boolean, required: [true, "isPublic is required"] },
   userId: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
