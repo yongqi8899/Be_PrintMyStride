@@ -15,13 +15,11 @@ import { productSchema } from '../joi/schemas.js';
 const productsRouter = Router();
 
 productsRouter.route('/').get(getAllProducts).post(verifyToken, upload.single('image'), function (req, res, next) {
-  console.log("req.body",req.body);
   cloudinary.uploader.upload(req.file.path, function (error, result) {
     if (error) {
       return res.status(400).json({ success: false, message: error.message });
     } else {
       req.body.image = result.url;
-      console.log("req.body2",req.body);
       next(); 
     }
   });
@@ -30,7 +28,16 @@ productsRouter.route('/').get(getAllProducts).post(verifyToken, upload.single('i
 productsRouter
   .route('/:id')
   .get(getSingleProduct)
-  .put(verifyToken, validateJOI(productSchema), updateProduct)
+  .put(verifyToken,  upload.single('image'), function (req, res, next) {
+  cloudinary.uploader.upload(req.file.path, function (error, result) {
+    if (error) {
+      return res.status(400).json({ success: false, message: error.message });
+    } else {
+      req.body.image = result.url;
+      next(); 
+    }
+  });
+},validateJOI(productSchema), updateProduct)
   .delete(verifyToken, deleteProduct);
 
 export default productsRouter;

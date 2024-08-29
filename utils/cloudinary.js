@@ -18,7 +18,6 @@ const url = cloudinary.url("sample.jpg", {
     const result = await cloudinary.uploader.upload("./uploads/ee495e40ace39e3a407b516c946ed8ff", {
       upload_preset: "preset1",
     });
-    console.log(result);
     const url = cloudinary.url(result.public_id, {
       transformation: [
         { fetch_format: "auto",  quality: "auto"},
