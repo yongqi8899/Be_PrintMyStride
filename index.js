@@ -15,7 +15,7 @@ import { join } from "path";
 const app = express();
 const port = process.env.PORT || 8080;
 
-var whitelist = process.env.SPA_ORIGIN
+var whitelist = [process.env.SPA_ORIGIN1 , process.env.SPA_ORIGIN2]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
