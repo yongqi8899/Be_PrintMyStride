@@ -49,3 +49,17 @@ export const reviewSchema = Joi.object({
   comment: Joi.string().required(),
   reviewDate: Joi.date().iso().optional(),
 });
+
+
+export const paymentSchema = Joi.object({
+  orderId: Joi.string().required(), // Assuming you are linking this payment to an order
+  name: Joi.string().required(),
+  address: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  zip: Joi.string().required(),
+  country: Joi.string().required(),
+  cardNumber: Joi.string().required(), // Validate card number format
+  expiryDate: Joi.string().pattern(/^\d{2}\/\d{2}$/).required(), // Validate MM/YY format
+  cvv: Joi.string().length(3).pattern(/^[0-9]+$/).required(), // Validate 3-digit CVV
+});

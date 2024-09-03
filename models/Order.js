@@ -9,6 +9,7 @@ const orderSchema = new Schema({
   status: {
     type: String,
     enum: [
+      "ordered",
       "payed",
       "feet_impression",
       "3D_Druck",

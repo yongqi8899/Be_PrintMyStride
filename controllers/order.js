@@ -4,7 +4,22 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
 
 export const getAllOrders = asyncHandler(async (req, res, next) => {
-  const orders = await Order.find()
+  const { userId } = req.query;
+  let orders;
+  if (userId) {
+    orders = await Order.find({ userId })
+      .populate({ path: "userId", strictPopulate: false })
+      .populate({
+        path: "products",
+        populate: {
+          path: "productId",
+        },
+        strictPopulate: false,
+      });
+    return res.json(orders);
+  }
+
+  orders = await Order.find()
     .populate({ path: "userId", strictPopulate: false })
     .populate({
       path: "products",
