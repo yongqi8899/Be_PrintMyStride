@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node -r dotenv/config.js --watch index.js"
+    "dev": "node -r dotenv/config.js --watch index.js",
+    "build": "vite build"
   },
   "keywords": [],
   "author": "",
