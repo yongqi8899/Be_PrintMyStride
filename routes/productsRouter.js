@@ -28,15 +28,17 @@ productsRouter.route('/').get(getAllProducts).post(verifyToken, upload.single('i
 productsRouter
   .route('/:id')
   .get(getSingleProduct)
-  .put(verifyToken,  upload.single('image'), function (req, res, next) {
-  cloudinary.uploader.upload(req.file.path, function (error, result) {
-    if (error) {
-      return res.status(400).json({ success: false, message: error.message });
-    } else {
-      req.body.image = result.url;
-      next(); 
+  .put(verifyToken,  upload.single('image'), async function (req, res, next) {
+    if (req.file) {
+      // If there's a file, upload it to Cloudinary
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        req.body.image = result.url; // Save the uploaded image URL to req.body
+      } catch (error) {
+        return res.status(400).json({ success: false, message: error.message });
+      }
     }
-  });
+    next();
 },validateJOI(productSchema), updateProduct)
   .delete(verifyToken, deleteProduct);
 

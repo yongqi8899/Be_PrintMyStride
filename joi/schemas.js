@@ -14,7 +14,7 @@ export const signinSchema = Joi.object({
 
 export const productSchema = Joi.object({
   title: Joi.string().required(),
-  image: Joi.string().required(),
+  image: Joi.string().uri().optional(),
   description: Joi.string().required(),
   summary: Joi.string().required(),
   price: Joi.string().required(),
