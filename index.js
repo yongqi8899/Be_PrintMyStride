@@ -15,17 +15,17 @@ import { join } from "path";
 const app = express();
 const port = process.env.PORT || 8080;
 
-// const whitelist = [process.env.SPA_ORIGIN1 , process.env.SPA_ORIGIN2]
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1 || !origin) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }, 
-//   credentials: true 
-// }
+const whitelist = [process.env.SPA_ORIGIN1 , process.env.SPA_ORIGIN2]
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }, 
+  credentials: true 
+}
 
 // const corsOptions = {
 //   origin: '*', // Allow all origins (not recommended for production)
