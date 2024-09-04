@@ -27,10 +27,10 @@ const port = process.env.PORT || 8080;
 //   credentials: true 
 // }
 
-const corsOptions = {
-  origin: '*', // Allow all origins (not recommended for production)
-  credentials: true
-};
+// const corsOptions = {
+//   origin: '*', // Allow all origins (not recommended for production)
+//   credentials: true
+// };
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 app.use(express.json());
