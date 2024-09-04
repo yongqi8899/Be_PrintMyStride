@@ -15,10 +15,10 @@ import { join } from "path";
 const app = express();
 const port = process.env.PORT || 8080;
 
-const whitelist = [process.env.SPA_ORIGIN1 , process.env.SPA_ORIGIN2]
-const corsOptions = {
+var whitelist = [process.env.SPA_ORIGIN1 , process.env.SPA_ORIGIN2]
+var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -26,13 +26,7 @@ const corsOptions = {
   }, 
   credentials: true 
 }
-
-// const corsOptions = {
-//   origin: '*', // Allow all origins (not recommended for production)
-//   credentials: true
-// };
 app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.static(join(import.meta.dirname, "uploads")))
 app.use("/auth", authRouter);
