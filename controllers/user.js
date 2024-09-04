@@ -57,7 +57,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const isProduction = process.env.NODE_ENV === "production";
   const cookieOptions = {
     httpOnly: true,
-    sameSite: isProduction ? "Non" : "Lax",
+    sameSite: isProduction ? "None" : "Lax",
     secure: isProduction,
   };
   res.cookie("token", token, cookieOptions);
